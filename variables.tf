@@ -1,11 +1,7 @@
-// spotinst/[NAME]
-
-variable "spotinst_token" {
+variable "project" {
   type        = string
-  description = "Spot Personal Access token"
+  description = "Name of the project to connect to Spot"
 }
 
-variable "spotinst_account" {
-  type        = string
-  description = "Spot account ID"
-}
+
+

@@ -11,8 +11,8 @@ resource "google_service_account" "spotserviceaccount" {
 	    # Without this set-cloud-credentials fails 
 	    command = "sleep 10"
 	}
-	account_id      = "spot-${local.account_id}-${random_id.role.hex}"
-	display_name    = "spot-${local.account_id}-${random_id.role.hex}"
+	account_id      = "spot-${random_id.role.hex}"
+	display_name    = "spot-${random_id.role.hex}"
 	description     = "Service Account for Spot.io"
 	project         = var.project
 }
@@ -25,7 +25,7 @@ resource "google_project_iam_binding" "spot-account-iam" {
     project = var.project
     role    = google_project_iam_custom_role.SpotRole.name
     members = [
-        "serviceAccount:spot-${local.account_id}-${random_id.role.hex}@${var.project}.iam.gserviceaccount.com",
+        "serviceAccount:spot-${random_id.role.hex}@${var.project}.iam.gserviceaccount.com",
     ]
 }
 

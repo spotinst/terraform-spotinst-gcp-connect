@@ -43,7 +43,7 @@ def set_cloud_credentials(accountid, credential):
 
     headers = {
         'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + token_val
+        'Authorization': 'Bearer ' + str(token_val)
     }
     url = 'https://api.spotinst.io/gcp/setup/credentials?accountId=' + accountid
     data = { "serviceAccount" : temp}

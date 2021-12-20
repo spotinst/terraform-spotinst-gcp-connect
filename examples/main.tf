@@ -1,11 +1,9 @@
-#Call the spot module to create a Spot account and link project
-module "spot_account" {
-    source = "../"
-
-    # GCP Project you would like to connect to Spot
-    project = "example"
+#Call the module to create a Spot account and link project
+module "spotinst-gcp-connect-project1" {
+    source  = "spotinst/gcp-connect/spotinst"
+    project = "project1"
 }
 
 output "spot_account_id" {
-    value = module.spot_account.spot_account_id
+    value = module.spotinst-gcp-connect-project1.spot_account_id
 }

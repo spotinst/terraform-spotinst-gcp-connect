@@ -10,8 +10,8 @@ The module will aid in automatically connecting your GCP project to Spot via ter
 ## Usage
 ```hcl
 #Call the spot module to create a Spot account and link project to the platform
-module "gcp_connect_project1" {
-    source  = "stevenfeltner/gcp-connect/spotinst"
+module "spotinst-gcp-connect-project1" {
+    source  = "spotinst/gcp-connect/spotinst"
     project = "project1"
 }
 output "spot_account_id" {

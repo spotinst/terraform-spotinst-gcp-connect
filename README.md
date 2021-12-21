@@ -1,62 +1,35 @@
-# [NAME] Terraform Module
+# Connect GCP Project To Spot.io Terraform Module
 
-Short description of the module.
+## Introduction
+The module will aid in automatically connecting your GCP project to Spot via terraform. This will also leverage a python script to create the Spot account within your Spot Organization and attach the GCP service account credential.
 
-## Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Usage](#usage)
-- [Examples](#examples)
-- [Requirements](#requirements)
-- [Providers](#providers)
-- [Modules](#modules)
-- [Resources](#resources)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
-- [Documentation](#documentation)
-- [Getting Help](#getting-help)
-- [Community](#community)
-- [Contributing](#contributing)
-- [License](#license)
+### Pre-Reqs
+* Spot Organization Admin API token. This is required to be added as an environment variable stored in ```SPOTINST_TOKEN```.  
+* Python 3 installed. 
 
 ## Usage
-
 ```hcl
-module "[NAME]" {
-  source = "spotinst/[NAME]/spotinst"
-
-  ...
+#Call the spot module to create a Spot account and link project to the platform
+module "spotinst-gcp-connect-project1" {
+    source  = "spotinst/gcp-connect/spotinst"
+    project = "project1"
 }
+output "spot_account_id" {
+    value = module.gcp_connect_project1.spot_account_id
+}
+
 ```
 
-## Examples
+### Run
+This terraform module will do the following:
 
-- [Basic](examples/basic)
+On Apply:
+* Create GCP Service Account
+* Create GCP Service Account Key
+* Create GCP Project Role
+* Create Spot Account within Spot Organization
+* Assign Project Role to Service Account
+* Provide GCP Service Account Key to newly created Spot Account
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-## Documentation
-
-If you're new to [Spot](https://spot.io/) and want to get started, please checkout our [Getting Started](https://docs.spot.io/connect-your-cloud-provider/) guide, available on the [Spot Documentation](https://docs.spot.io/) website.
-
-## Getting Help
-
-We use GitHub issues for tracking bugs and feature requests. Please use these community resources for getting help:
-
-- Ask a question on [Stack Overflow](https://stackoverflow.com/) and tag it with [terraform-spotinst](https://stackoverflow.com/questions/tagged/terraform-spotinst/).
-- Join our [Spot](https://spot.io/) community on [Slack](http://slack.spot.io/).
-- Open an issue.
-
-## Community
-
-- [Slack](http://slack.spot.io/)
-- [Twitter](https://twitter.com/spot_hq/)
-
-## Contributing
-
-Please see the [contribution guidelines](.github/CONTRIBUTING.md).
-
-## License
-
-Code is licensed under the [Apache License 2.0](LICENSE).
+On Destroy:
+* Remove all above resources including deleting the Spot Account

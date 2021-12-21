@@ -1,4 +1,4 @@
-# Terraform GCP Examples for Spot.io
+# Connect GCP Project To Spot.io Terraform Module
 
 ## Introduction
 The module will aid in automatically connecting your GCP project to Spot via terraform. This will also leverage a python script to create the Spot account within your Spot Organization and attach the GCP service account credential.

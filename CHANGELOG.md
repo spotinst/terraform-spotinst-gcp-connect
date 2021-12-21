@@ -11,9 +11,7 @@
 <a name="v0.1.0"></a>
 ## v0.1.0 (December 21, 2021)
 
-- Initial Commit ([#1](https://github.com/spotinst/terraform-spotinst-NAME/issues/1))
-- Initial commit
-
+- Initial Commit
 
 [Unreleased]: https://github.com/spotinst/terraform-spotinst-NAME/compare/v0.2.0...HEAD
 [v0.2.0]: https://github.com/spotinst/terraform-spotinst-NAME/compare/v0.1.0...v0.2.0

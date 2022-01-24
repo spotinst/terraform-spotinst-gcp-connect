@@ -52,7 +52,6 @@ def delete(ctx, *args, **kwargs):
 )
 def set_cloud_credentials(accountid, credential, **kwargs):
     """Set serviceaccount to a Spot Account"""
-    # print(accountid)
     temp = json.loads(base64.b64decode(credential))
 
     headers = {
@@ -61,7 +60,6 @@ def set_cloud_credentials(accountid, credential, **kwargs):
     }
     url = 'https://api.spotinst.io/gcp/setup/credentials?accountId=' + accountid
     data = {"serviceAccount": temp}
-    print(data)
     try:
         response = requests.post(headers=headers, json=data, url=url)
         print(response)

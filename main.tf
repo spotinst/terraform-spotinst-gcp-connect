@@ -34,17 +34,18 @@ resource "null_resource" "account" {
     triggers = {
         cmd     = "${path.module}/scripts/spot-account"
         name    = var.project
+        token   = var.spotinst_token
     }
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
-        command     = "${self.triggers.cmd} create ${self.triggers.name}"
+        command     = "${self.triggers.cmd} create ${self.triggers.name} --token=${var.spotinst_token}"
     }
     provisioner "local-exec" {
         when = destroy
         interpreter = ["/bin/bash", "-c"]
         command = <<-EOT
-            ID=$(${self.triggers.cmd} get --filter=name=${self.triggers.name} --attr=account_id) &&\
-            ${self.triggers.cmd} delete "$ID"
+            ID=$(${self.triggers.cmd} get --filter=name=${self.triggers.name} --attr=account_id --token=${var.spotinst_token}) &&\
+            ${self.triggers.cmd} delete "$ID" --token=${var.spotinst_token}
         EOT
     }
 }
@@ -55,6 +56,6 @@ resource "null_resource" "account_association" {
     depends_on = [google_project_iam_binding.spot-account-iam]
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
-        command = "${local.cmd} set-cloud-credentials ${local.account_id} ${google_service_account_key.key.private_key}"
+        command = "${local.cmd} set-cloud-credentials ${local.account_id} ${google_service_account_key.key.private_key} --token=${var.spotinst_token}"
     } 
 }

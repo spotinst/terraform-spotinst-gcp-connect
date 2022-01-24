@@ -2,54 +2,72 @@ import click
 import json
 import requests
 import base64
-import re
-import os
 
 from spotinst_sdk2 import SpotinstSession
 
-token_val = os.environ.get('SPOTINST_TOKEN')
 
 @click.group()
 @click.pass_context
 def cli(ctx, *args, **kwargs):
     ctx.obj = {}
-    session = SpotinstSession()
-    ctx.obj['client'] = session.client("admin")
 
 @cli.command()
-@click.argument('name',)
+@click.argument('name', )
+@click.option(
+    '--token',
+    required=False,
+    help='Spotinst Token'
+)
 @click.pass_context
 def create(ctx, *args, **kwargs):
     """Create a new Spot Account"""
+    session = SpotinstSession(auth_token=kwargs.get('token'))
+    ctx.obj['client'] = session.client("admin")
     result = ctx.obj['client'].create_account(kwargs.get('name'))
     click.echo(json.dumps(result))
 
 
 @cli.command()
 @click.argument('account-id')
+@click.option(
+    '--token',
+    required=False,
+    help='Spotinst Token'
+)
 @click.pass_context
 def delete(ctx, *args, **kwargs):
     """Delete a Spot Account"""
+    session = SpotinstSession(auth_token=kwargs.get('token'))
+    ctx.obj['client'] = session.client("admin")
     ctx.obj['client'].delete_account(kwargs.get('account_id'))
 
 
 @cli.command()
 @click.argument('accountid')
 @click.argument('credential')
-def set_cloud_credentials(accountid, credential):
+@click.option(
+    '--token',
+    required=False,
+    help='Spotinst Token'
+)
+def set_cloud_credentials(accountid, credential, **kwargs):
     """Set serviceaccount to a Spot Account"""
-    print(accountid)
+    # print(accountid)
     temp = json.loads(base64.b64decode(credential))
 
     headers = {
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + str(token_val)
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + kwargs.get('token')
     }
     url = 'https://api.spotinst.io/gcp/setup/credentials?accountId=' + accountid
-    data = { "serviceAccount" : temp}
+    data = {"serviceAccount": temp}
     print(data)
-    response = requests.post(headers = headers, json=data, url=url)
-    print(response)
+    try:
+        response = requests.post(headers=headers, json=data, url=url)
+        print(response)
+    except requests.exceptions.RequestException as e:
+        raise SystemExit(e)
+
 
 @cli.command()
 @click.option(
@@ -62,10 +80,16 @@ def set_cloud_credentials(accountid, credential):
     required=False,
     help='Return only the raw value of a single attribute'
 )
+@click.option(
+    '--token',
+    required=False,
+    help='Spotinst Token'
+)
 @click.pass_context
 def get(ctx, *args, **kwargs):
     """Returns ONLY the first match"""
-    ctx.obj['client'].account_id = kwargs.get('account_id')
+    session = SpotinstSession(auth_token=kwargs.get('token'))
+    ctx.obj['client'] = session.client("admin")
     result = ctx.obj['client'].get_accounts()
     if kwargs.get('filter'):
         k, v = kwargs.get('filter').split('=')

@@ -1,3 +1,5 @@
+import time
+
 import click
 import json
 import requests
@@ -52,6 +54,7 @@ def delete(ctx, *args, **kwargs):
 )
 def set_cloud_credentials(accountid, credential, **kwargs):
     """Set serviceaccount to a Spot Account"""
+    time.sleep(10)
     temp = json.loads(base64.b64decode(credential))
 
     headers = {

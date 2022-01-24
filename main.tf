@@ -38,14 +38,14 @@ resource "null_resource" "account" {
     }
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
-        command     = "${self.triggers.cmd} create ${self.triggers.name} --token=${var.spotinst_token}"
+        command     = "${self.triggers.cmd} create ${self.triggers.name} --token=${self.triggers.token}"
     }
     provisioner "local-exec" {
         when = destroy
         interpreter = ["/bin/bash", "-c"]
         command = <<-EOT
-            ID=$(${self.triggers.cmd} get --filter=name=${self.triggers.name} --attr=account_id --token=${var.spotinst_token}) &&\
-            ${self.triggers.cmd} delete "$ID" --token=${var.spotinst_token}
+            ID=$(${self.triggers.cmd} get --filter=name=${self.triggers.name} --attr=account_id --token=${self.triggers.token}) &&\
+            ${self.triggers.cmd} delete "$ID" --token=${self.triggers.token}
         EOT
     }
 }

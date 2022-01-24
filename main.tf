@@ -34,7 +34,7 @@ resource "null_resource" "account" {
     triggers = {
         cmd     = "${path.module}/scripts/spot-account"
         name    = var.project
-        token   = var.spotinst_token
+        token   = local.spotinst_token
     }
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
@@ -56,6 +56,6 @@ resource "null_resource" "account_association" {
     depends_on = [google_project_iam_binding.spot-account-iam]
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
-        command = "${local.cmd} set-cloud-credentials ${local.account_id} ${local.private_key} --token=${var.spotinst_token}"
+        command = "${local.cmd} set-cloud-credentials ${local.account_id} ${local.private_key} --token=${local.spotinst_token}"
     } 
 }

@@ -56,6 +56,6 @@ resource "null_resource" "account_association" {
     depends_on = [google_project_iam_binding.spot-account-iam]
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
-        command = "${local.cmd} set-cloud-credentials ${local.account_id} ${google_service_account_key.key.private_key} --token=${var.spotinst_token}"
+        command = "${local.cmd} set-cloud-credentials ${local.account_id} ${local.private_key} --token=${var.spotinst_token}"
     } 
 }

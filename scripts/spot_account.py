@@ -65,9 +65,9 @@ def set_cloud_credentials(accountid, credential, **kwargs):
     try:
         r = requests.post(headers=headers, json=data, url=url)
         r.raise_for_status()
-        print(r)
+        json_response = r.json()
+        print(json_response)
         print(r.request.url)
-        print(r.request.headers)
     except requests.exceptions.HTTPError as errh:
         print("Http Error:", errh.response.text)
     except requests.exceptions.ConnectionError as errc:

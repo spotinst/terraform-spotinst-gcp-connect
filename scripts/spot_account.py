@@ -66,6 +66,8 @@ def set_cloud_credentials(accountid, credential, **kwargs):
     try:
         r = requests.post(headers=headers, json=data, url=url)
         r.raise_for_status()
+        response = json.dumps(r)
+        print(response)
         print(r.request.url)
         print(r.request.body)
         print(r.request.headers)

@@ -66,15 +66,18 @@ def set_cloud_credentials(accountid, credential, **kwargs):
         r = requests.post(headers=headers, json=data, url=url)
         r.raise_for_status()
         json_response = r.json()
-        print(json_response)
+        click.echo(json.dumps(json_response))
     except requests.exceptions.HTTPError as errh:
         print("Http Error:", errh)
+        r = requests.post(headers=headers, json=data, url=url)
+        json_response = r.json()
+        click.echo(json.dumps(json_response))
     except requests.exceptions.ConnectionError as errc:
         print("Error Connecting:", errc)
     except requests.exceptions.Timeout as errt:
         print("Timeout Error:", errt)
     except requests.exceptions.RequestException as err:
-        print("OOps: Something Else", err)
+        print("Oops: Something Else:", err)
 
 
 @cli.command()

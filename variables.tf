@@ -9,5 +9,9 @@ variable "spotinst_token" {
   sensitive   = true
 }
 
-
+variable "debug" {
+  type        = bool
+  description = "Add flag to expose sensitive variables for troubleshooting"
+  default     = false
+}
 

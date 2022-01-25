@@ -13,6 +13,7 @@ from spotinst_sdk2 import SpotinstSession
 def cli(ctx, *args, **kwargs):
     ctx.obj = {}
 
+
 @cli.command()
 @click.argument('name', )
 @click.option(
@@ -64,10 +65,17 @@ def set_cloud_credentials(accountid, credential, **kwargs):
     url = 'https://api.spotinst.io/gcp/setup/credentials?accountId=' + accountid
     data = {"serviceAccount": temp}
     try:
-        response = requests.post(headers=headers, json=data, url=url)
-        print(response)
-    except requests.exceptions.RequestException as e:
-        raise SystemExit(e)
+        r = requests.post(headers=headers, json=data, url=url)
+        r.raise_for_status()
+        print(r)
+    except requests.exceptions.HTTPError as errh:
+        print("Http Error:", errh.response.text)
+    except requests.exceptions.ConnectionError as errc:
+        print("Error Connecting:", errc)
+    except requests.exceptions.Timeout as errt:
+        print("Timeout Error:", errt)
+    except requests.exceptions.RequestException as err:
+        print("OOps: Something Else", err)
 
 
 @cli.command()

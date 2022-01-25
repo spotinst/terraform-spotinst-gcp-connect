@@ -1,7 +1,7 @@
 locals {
   cmd = "${path.module}/scripts/spot-account"
   account_id = data.external.account.result["account_id"]
-  spotinst_token = nonsensitive(var.spotinst_token)
+  spotinst_token = var.spotinst_token
   private_key = nonsensitive(google_service_account_key.key.private_key)
 }
 

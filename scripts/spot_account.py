@@ -1,5 +1,4 @@
 import time
-
 import click
 import json
 import requests
@@ -67,7 +66,9 @@ def set_cloud_credentials(accountid, credential, **kwargs):
     try:
         r = requests.post(headers=headers, json=data, url=url)
         r.raise_for_status()
-        print(r)
+        print(r.request.url)
+        print(r.request.body)
+        print(r.request.headers)
     except requests.exceptions.HTTPError as errh:
         print("Http Error:", errh.response.text)
     except requests.exceptions.ConnectionError as errc:

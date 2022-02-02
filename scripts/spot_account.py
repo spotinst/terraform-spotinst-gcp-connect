@@ -1,4 +1,3 @@
-import time
 import click
 import json
 import requests
@@ -33,7 +32,7 @@ def create(ctx, *args, **kwargs):
 @click.argument('account-id')
 @click.option(
     '--token',
-    required=False,
+    required=True,
     help='Spotinst Token'
 )
 @click.pass_context
@@ -49,7 +48,7 @@ def delete(ctx, *args, **kwargs):
 @click.argument('credential')
 @click.option(
     '--token',
-    required=False,
+    required=True,
     help='Spotinst Token'
 )
 def set_cloud_credentials(accountid, credential, **kwargs):
@@ -93,7 +92,7 @@ def set_cloud_credentials(accountid, credential, **kwargs):
 )
 @click.option(
     '--token',
-    required=False,
+    required=True,
     help='Spotinst Token'
 )
 @click.pass_context
@@ -109,9 +108,20 @@ def get(ctx, *args, **kwargs):
         if result:
             result = result[0].get(kwargs.get('attr'))
             click.echo(result)
+        else:
+            fail_string = {'account_id': '', 'organization_id': ''}
+            click.echo(json.dumps(fail_string))
     else:
         if result:
             click.echo(json.dumps(result[0]))
+        else:
+            fail_string = {'account_id': '', 'organization_id': ''}
+            click.echo(json.dumps(fail_string))
+
+
+
+
+
 
 
 if __name__ == "__main__":

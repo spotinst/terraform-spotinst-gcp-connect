@@ -9,7 +9,7 @@ output "private_key" {
     sensitive = true
 }
 
-output "spot_organization_idd" {
+output "spot_organization_id" {
     description = "Spot Organization ID"
     value = local.organization_id
 }

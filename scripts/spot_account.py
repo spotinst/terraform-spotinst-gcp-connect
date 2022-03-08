@@ -1,9 +1,8 @@
 import click
-import json
-import requests
 import base64
 
 from spotinst_sdk2 import SpotinstSession
+from spotinst_sdk2.models.setup.gcp import *
 
 
 @click.group()
@@ -51,32 +50,25 @@ def delete(ctx, *args, **kwargs):
     required=True,
     help='Spotinst Token'
 )
-def set_cloud_credentials(accountid, credential, **kwargs):
+@click.pass_context
+def set_cloud_credentials(ctx, **kwargs):
     """Set serviceaccount to a Spot Account"""
-    temp = json.loads(base64.b64decode(credential))
-
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + kwargs.get('token')
-    }
-    url = 'https://api.spotinst.io/gcp/setup/credentials?accountId=' + accountid
-    data = {"serviceAccount": temp}
-    try:
-        r = requests.post(headers=headers, json=data, url=url)
-        r.raise_for_status()
-        json_response = r.json()
-        click.echo(json.dumps(json_response))
-    except requests.exceptions.HTTPError as errh:
-        print("Http Error:", errh)
-        r = requests.post(headers=headers, json=data, url=url)
-        json_response = r.json()
-        click.echo(json.dumps(json_response))
-    except requests.exceptions.ConnectionError as errc:
-        print("Error Connecting:", errc)
-    except requests.exceptions.Timeout as errt:
-        print("Timeout Error:", errt)
-    except requests.exceptions.RequestException as err:
-        print("Oops: Something Else:", err)
+    session = SpotinstSession(auth_token=kwargs.get('token'))
+    ctx.obj['client2'] = session.client("setup_gcp")
+    ctx.obj['client2'].account_id = kwargs.get('account_id')
+    credential_json = json.loads(base64.b64decode(kwargs.get('credential')))
+    serviceaccount = ServiceAccount(type=credential_json.get("type"), project_id=credential_json.get("project_id"),
+                                    private_key_id=credential_json.get("private_key_id"),
+                                    private_key=credential_json.get("private_key"),
+                                    client_email=credential_json.get("client_email"),
+                                    client_id=credential_json.get("client_id"),
+                                    auth_uri=credential_json.get("auth_uri"),
+                                    token_uri=credential_json.get("token_uri"),
+                                    auth_provider_x509_cert_url=credential_json.get("auth_provider_x509_cert_url"),
+                                    client_x509_cert_url=credential_json.get("client_x509_cert_url"))
+    gcpcredentials = GcpCredentials(serviceAccount=serviceaccount)
+    result = ctx.obj['client2'].set_credentials(gcpcredentials)
+    click.echo(json.dumps(result))
 
 
 @cli.command()
@@ -117,11 +109,6 @@ def get(ctx, *args, **kwargs):
         else:
             fail_string = {'account_id': '', 'organization_id': ''}
             click.echo(json.dumps(fail_string))
-
-
-
-
-
 
 
 if __name__ == "__main__":

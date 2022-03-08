@@ -1,6 +1,7 @@
 #Call the module to create a Spot account and link project
 module "spotinst-gcp-connect-project1" {
     source  = "spotinst/gcp-connect/spotinst"
+    spotinst_token = "Redacted"
     project = "project1"
 }
 

@@ -4,7 +4,7 @@ data "external" "account" {
   program = [
     local.cmd,
     "get",
-    "--filter=name=${var.project}",
+    "--filter=name=${local.name}",
     "--token=${var.spotinst_token}"
   ]
 }

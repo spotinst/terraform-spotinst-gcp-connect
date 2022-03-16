@@ -2,12 +2,12 @@
 resource "null_resource" "account" {
     triggers = {
         cmd         = "${path.module}/scripts/spot-account"
-        name        = var.project
+        name        = local.name
         token       = local.spotinst_token
     }
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
-        command     = "${self.triggers.cmd} create ${self.triggers.name} --token=${self.triggers.token}"
+        command     = "${self.triggers.cmd} create '${self.triggers.name}' --token=${self.triggers.token}"
     }
     provisioner "local-exec" {
         when        = destroy

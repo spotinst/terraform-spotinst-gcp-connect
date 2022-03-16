@@ -2,6 +2,11 @@ variable "project" {
   type        = string
   description = "Name of the project to connect to Spot"
 }
+variable "name" {
+  type        = string
+  description = "Name for Spot Account"
+  default     = null
+}
 
 variable "spotinst_token" {
   type        = string

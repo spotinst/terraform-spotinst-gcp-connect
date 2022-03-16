@@ -2,7 +2,7 @@
 resource "null_resource" "account" {
     triggers = {
         cmd         = "${path.module}/scripts/spot-account"
-        name        = var.project
+        name        = local.name
         token       = local.spotinst_token
     }
     provisioner "local-exec" {

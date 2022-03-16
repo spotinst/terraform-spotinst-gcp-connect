@@ -57,7 +57,7 @@ def set_cloud_credentials(ctx, **kwargs):
     ctx.obj['client2'] = session.client("setup_gcp")
     ctx.obj['client2'].account_id = kwargs.get('account_id')
     credential_json = json.loads(base64.b64decode(kwargs.get('credential')))
-    serviceaccount = ServiceAccount(type=credential_json.get("type"), project_id=credential_json.get("project_id"),
+    service_account = ServiceAccount(type=credential_json.get("type"), project_id=credential_json.get("project_id"),
                                     private_key_id=credential_json.get("private_key_id"),
                                     private_key=credential_json.get("private_key"),
                                     client_email=credential_json.get("client_email"),
@@ -66,8 +66,8 @@ def set_cloud_credentials(ctx, **kwargs):
                                     token_uri=credential_json.get("token_uri"),
                                     auth_provider_x509_cert_url=credential_json.get("auth_provider_x509_cert_url"),
                                     client_x509_cert_url=credential_json.get("client_x509_cert_url"))
-    gcpcredentials = GcpCredentials(serviceAccount=serviceaccount)
-    result = ctx.obj['client2'].set_credentials(gcpcredentials)
+    gcp_credentials = GcpCredentials(serviceAccount=service_account)
+    result = ctx.obj['client2'].set_credentials(gcp_credentials)
     click.echo(json.dumps(result))
 
 

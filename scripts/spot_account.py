@@ -43,7 +43,7 @@ def delete(ctx, *args, **kwargs):
 
 
 @cli.command()
-@click.argument('accountid')
+@click.argument('account-id')
 @click.argument('credential')
 @click.option(
     '--token',

@@ -69,5 +69,5 @@ resource "null_resource" "account_association" {
     provisioner "local-exec" {
         interpreter = ["/bin/bash", "-c"]
         command = "${local.cmd} set-cloud-credentials ${local.account_id} ${local.private_key} --token=${local.spotinst_token}"
-    } 
+    }
 }

@@ -1,6 +1,6 @@
 # Call Spot API to create the Spot Account
 resource "null_resource" "account" {
-    count           = var.import_existing ? 1 : 0
+    count           = var.import_existing ? 0 : 1
     triggers = {
         cmd         = "${path.module}/scripts/spot-account"
         name        = local.name
@@ -21,7 +21,7 @@ resource "null_resource" "account" {
 }
 
 resource "null_resource" "account_import_deletion" {
-    count           = var.import_existing ? 0 : 1
+    count           = var.import_existing ? 1 : 0
     triggers = {
         cmd         = "${path.module}/scripts/spot-account"
         name        = local.name

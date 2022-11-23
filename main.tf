@@ -1,5 +1,6 @@
 # Call Spot API to create the Spot Account
 resource "null_resource" "account" {
+    count           = var.import_existing ? 1 : 0
     triggers = {
         cmd         = "${path.module}/scripts/spot-account"
         name        = local.name
@@ -19,10 +20,27 @@ resource "null_resource" "account" {
     }
 }
 
+resource "null_resource" "account_import_deletion" {
+    count           = var.import_existing ? 0 : 1
+    triggers = {
+        cmd         = "${path.module}/scripts/spot-account"
+        name        = local.name
+        token       = local.spotinst_token
+    }
+    provisioner "local-exec" {
+        when        = destroy
+        interpreter = ["/bin/bash", "-c"]
+        command     = <<-EOT
+            ID=$(${self.triggers.cmd} get --filter=name=${self.triggers.name} --attr=account_id --token=${self.triggers.token}) &&\
+            ${self.triggers.cmd} delete "$ID" --token=${self.triggers.token}
+        EOT
+    }
+}
+
 ## Resources
 resource "google_project_iam_custom_role" "SpotRole" {
-    role_id     = "SpotRole${replace(local.account_id,"-","")}"
-    title       = "SpotRole${replace(local.account_id,"-","")}"
+    role_id     = var.role_id == null ? "SpotRole${replace(local.account_id,"-","")}" : var.role_id
+    title       = var.role_title == null ? "SpotRole${replace(local.account_id,"-","")}" : var.role_title
     description = var.role_description
     project     = var.project
     permissions = var.role_permissions
@@ -34,8 +52,8 @@ resource "google_service_account" "spotserviceaccount" {
         # Without this set-cloud-credentials fails
         command = "sleep 10"
     }
-    account_id      = "spot-${local.organization_id}-${local.account_id}"
-    display_name    = "spot-${local.organization_id}-${local.account_id}"
+    account_id      = var.service_account_id == null ? "spot-${local.organization_id}-${local.account_id}" : var.service_account_id
+    display_name    = var.service_account_display_name == null ? "spot-${local.organization_id}-${local.account_id}" : var.service_account_display_name
     description     = var.service_account_description
     project         = var.project
 }
@@ -50,7 +68,7 @@ resource "google_project_iam_binding" "spot-account-iam" {
     project = var.project
     role    = google_project_iam_custom_role.SpotRole.name
     members = [
-        "serviceAccount:spot-${local.organization_id}-${local.account_id}@${var.project}.iam.gserviceaccount.com"
+        google_service_account.spotserviceaccount.member
     ]
 }
 
@@ -59,7 +77,7 @@ resource "google_project_iam_binding" "service-account-user-iam" {
     project = var.project
     role    = "roles/iam.serviceAccountUser"
     members = [
-        "serviceAccount:spot-${local.organization_id}-${local.account_id}@${var.project}.iam.gserviceaccount.com"
+        google_service_account.spotserviceaccount.member
     ]
 }
 

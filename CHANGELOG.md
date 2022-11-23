@@ -1,13 +1,16 @@
-<a name="unreleased"></a>
-## [Unreleased]
+<a name="v0.3.2"></a>
+## [v0.3.2] (November 22, 2022)
 
+- Add ability to import existing Spot Account to be managed by Terraform module
+- Add variables for role name and service account name
+- Move iam assignment to use service account member attribute reference
+- Update and add examples
 
 
 <a name="v0.3.1"></a>
 ## [v0.3.1] (July 18, 2022)
 
 - Correct typo ([#6](https://github.com/spotinst/terraform-spotinst-NAME/issues/6))
-- docs(changelog): v0.3.0
 
 
 <a name="v0.3.0"></a>

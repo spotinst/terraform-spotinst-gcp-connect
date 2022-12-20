@@ -10,7 +10,7 @@ variable "name" {
 
 variable "spotinst_token" {
   type        = string
-  description = "Spotinst API Token"
+  description = "Spot by NetApp API Token"
   sensitive   = true
 }
 
@@ -20,10 +20,28 @@ variable "debug" {
   default     = false
 }
 
+variable "import_existing" {
+    type        = bool
+    description = "Import an existing Spot Account ID to be managed by terraform"
+    default     = false
+}
+
+variable "role_id" {
+    type        = string
+    description = "Add a custom id for the custom role"
+    default     = null
+}
+
+variable "role_title" {
+    type        = string
+    description = "Add a custom role title for the custom role"
+    default     = null
+}
+
 variable "role_description" {
   type        = string
   description = "Add a custom description to the role"
-  default     = "Custom Role for Spot.io"
+  default     = "Custom Role for Spot by NetApp"
 }
 
 variable "role_permissions" {
@@ -122,8 +140,22 @@ variable "role_permissions" {
       ]
     }
 
+
+variable "service_account_id" {
+    type        = string
+    description = "Account ID for GCP Service Account"
+    default     = null
+}
+
+
+variable "service_account_display_name" {
+    type        = string
+    description = "Display Name for GCP Service Account"
+    default     = null
+}
+
 variable "service_account_description" {
   type        = string
   description = "Description text for Service Account"
-  default     = "Service Account for Spot.io"
+  default     = "Service Account for Spot by NetApp"
 }

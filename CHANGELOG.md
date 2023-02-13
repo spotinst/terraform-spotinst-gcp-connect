@@ -1,3 +1,10 @@
+<a name="v0.3.3"></a>
+## [v0.3.3] (January 25, 2023)
+
+- Format tf files
+- Update examples
+
+
 <a name="v0.3.2"></a>
 ## [v0.3.2] (November 22, 2022)
 

@@ -73,12 +73,18 @@ resource "google_project_iam_binding" "spot-account-iam" {
 }
 
 
-resource "google_project_iam_binding" "service-account-user-iam" {
+/*resource "google_project_iam_binding" "service-account-user-iam" {
   project = var.project
   role    = "roles/iam.serviceAccountUser"
   members = [
     google_service_account.spotserviceaccount.member
   ]
+}*/
+
+resource "google_project_iam_member" "service-account-user-iam" {
+  project = var.project
+  role    = "roles/iam.serviceAccountUser"
+  member  = google_service_account.spotserviceaccount.member
 }
 
 # Link the service account to the Spot Account

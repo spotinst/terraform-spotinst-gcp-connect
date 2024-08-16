@@ -2,6 +2,9 @@
 ## [Unreleased]
 
 
+<a name="v0.3.6"></a>
+## [v0.3.6] - 2024-08-16
+
 <a name="v0.3.5"></a>
 ## [v0.3.5] - 2024-08-16
 
@@ -42,7 +45,8 @@
 <a name="v0.1.0"></a>
 ## v0.1.0 - 2021-12-21
 
-[Unreleased]: https://github.com/spotinst/terraform-spotinst-gcp-connect/compare/v0.3.5...HEAD
+[Unreleased]: https://github.com/spotinst/terraform-spotinst-gcp-connect/compare/v0.3.6...HEAD
+[v0.3.6]: https://github.com/spotinst/terraform-spotinst-gcp-connect/compare/v0.3.5...v0.3.6
 [v0.3.5]: https://github.com/spotinst/terraform-spotinst-gcp-connect/compare/v0.3.4...v0.3.5
 [v0.3.4]: https://github.com/spotinst/terraform-spotinst-gcp-connect/compare/v0.3.2...v0.3.4
 [v0.3.2]: https://github.com/spotinst/terraform-spotinst-gcp-connect/compare/v0.3.1...v0.3.2

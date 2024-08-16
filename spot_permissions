@@ -8,6 +8,7 @@ compute.addresses.useInternal
 compute.backendServices.get
 compute.backendServices.list
 compute.backendServices.update
+compute.commitments.list
 compute.diskTypes.get
 compute.diskTypes.list
 compute.disks.create
@@ -33,7 +34,6 @@ compute.instanceGroups.get
 compute.instanceGroups.list
 compute.instanceGroups.update
 compute.instanceGroups.use
-compute.instanceGroups.delete
 compute.instanceTemplates.get
 compute.instances.attachDisk
 compute.instances.create

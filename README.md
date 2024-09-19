@@ -1,6 +1,6 @@
 # Connect GCP Project To Spot.io Terraform Module
 
-IMPORTANT: Please note that gcp-connect module will reach End-Of-Life on November 1, 2024. Please upgrade to connect-gcp module at your earliest convenience. Refer: [spotinst/connect-gcp](https://registry.terraform.io/modules/spotinst/connect-gcp/spotinst)
+IMPORTANT: Please note that a new and enhanced [connect-gcp](https://registry.terraform.io/modules/spotinst/connect-gcp/spotinst) module is released for onboarding GCP projects to Spot. Customers are encouraged to use the new module `connect-gcp` for any new onboarding. This gcp-connect module will be deprecated in near future.
 
 ## Introduction
 The module will aid in automatically connecting your GCP project to Spot via terraform. This will also leverage a python script to create the Spot account within your Spot Organization and attach the GCP service account credential.
